@@ -14,3 +14,11 @@ flutter run --dart-define=BACKEND_URL=$BACKEND_URL
 
 - The iOS app is configured with development team id "0000000000" and bundle identifier "com.corbado.passkeys.pub". According entry needs to be found in server configuration file `/.well-known/apple-app-site-association.
 - Configuration for backend domain webcredentials are needed in [iOS project configuration](https://developer.apple.com/documentation/xcode/supporting-associated-domains). Tip: search for string "backend.example.com" and replace with your domain.
+- Android prerequisities: <https://developer.android.com/training/sign-in/passkeys#prerequisites>
+  - signing app
+- Android authenticator selection needs values in registration
+- Start android emulator from cmd line:
+
+  ```shell
+  ~/Library/Android/sdk/emulator/emulator -avd Pixel_7_API_34
+  ```
