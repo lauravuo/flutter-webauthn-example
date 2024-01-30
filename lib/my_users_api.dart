@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:corbado_auth/corbado_auth.dart';
 import 'package:http/http.dart';
 import 'package:corbado_frontend_api_client/frontendapi/lib/api.dart';
-import 'package:passkeys/relying_party_server/corbado/types/authentication.dart';
-import 'package:passkeys/relying_party_server/corbado/types/registration.dart';
 
 class MyUsersApi {
   MyUsersApi([ApiClient? apiClient])
@@ -41,7 +40,7 @@ class MyUsersApi {
   ///
   /// * [PassKeyFinishReq] passKeyFinishReq (required):
   Future<Response> passKeyLoginFinishWithHttpInfo(
-    CorbadoAuthenticationCompleteRequest signedChallenge,
+    FinishLoginRequest signedChallenge,
   ) async {
     // ignore: prefer_const_declarations
     final path = r'/assertion/result';
@@ -142,7 +141,7 @@ class MyUsersApi {
   ///
   /// * [PassKeyFinishReq] passKeyFinishReq (required):
   Future<Response> passKeyRegisterFinishWithHttpInfo(
-    CorbadoRegisterSignedChallengeRequest signedChallenge,
+    FinishRegisterRequest signedChallenge,
   ) async {
     // ignore: prefer_const_declarations
     final path = r'/attestation/result';
@@ -155,6 +154,8 @@ class MyUsersApi {
     final formParams = <String, String>{};
 
     const contentTypes = <String>['application/json'];
+
+    print(apiClient.defaultHeaderMap);
 
     return apiClient.invokeAPI(
       path,
@@ -173,7 +174,7 @@ class MyUsersApi {
   ///
   /// * [PassKeyFinishReq] passKeyFinishReq (required):
   Future<PassKeyRegisterFinishRsp?> passKeyRegisterFinish(
-    CorbadoRegisterSignedChallengeRequest signedChallenge,
+    FinishRegisterRequest signedChallenge,
   ) async {
     final response = await passKeyRegisterFinishWithHttpInfo(
       signedChallenge,
@@ -186,10 +187,8 @@ class MyUsersApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty &&
         response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(
-        await _decodeBodyBytes(response),
-        'PassKeyRegisterFinishRsp',
-      ) as PassKeyRegisterFinishRsp;
+      final value = jsonDecode(await _decodeBodyBytes(response));
+      return PassKeyRegisterFinishRsp.fromJson(value);
     }
     return null;
   }
