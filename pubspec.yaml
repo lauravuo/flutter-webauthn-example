@@ -46,6 +46,8 @@ dependencies:
   flutter_riverpod: ^2.4.9
   hooks_riverpod: ^2.4.9
 
+  webview_flutter: ^4.4.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
