@@ -37,23 +37,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: router,
-      theme: ThemeData(
-        useMaterial3: false,
-        colorScheme: const ColorScheme(
-          brightness: Brightness.light,
-          primary: Color.fromARGB(255, 255, 25, 228),
-          onPrimary: Colors.white,
-          secondary: Colors.white,
-          onSecondary: Colors.black,
-          error: Colors.redAccent,
-          onError: Colors.white,
-          background: Color.fromARGB(255, 255, 25, 228),
-          onBackground: Colors.white,
-          surface: Color.fromARGB(255, 255, 25, 228),
-          onSurface: Color.fromARGB(255, 255, 25, 228),
-        ),
-      ),
-    );
+        routerConfig: router,
+        theme: ThemeData(
+          useMaterial3: false,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.lightBlue,
+          ),
+        ));
   }
 }

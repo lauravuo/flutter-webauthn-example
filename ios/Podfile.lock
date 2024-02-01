@@ -6,12 +6,15 @@ PODS:
     - Flutter
   - ua_client_hints (1.2.0):
     - Flutter
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_keychain (from `.symlinks/plugins/flutter_keychain/ios`)
   - passkeys_ios (from `.symlinks/plugins/passkeys_ios/ios`)
   - ua_client_hints (from `.symlinks/plugins/ua_client_hints/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -22,12 +25,15 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/passkeys_ios/ios"
   ua_client_hints:
     :path: ".symlinks/plugins/ua_client_hints/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_keychain: 01aabf894ffe8b01adfda1d9df21c210c1b4b452
   passkeys_ios: fdae8c06e2178a9fcb9261a6cb21fb9a06a81d53
   ua_client_hints: 5887fe166a59d944cbade5eb84d60c4e417b4f55
+  webview_flutter_wkwebview: be0f0d33777f1bfd0c9fdcb594786704dbf65f36
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 

@@ -5,3 +5,14 @@ import 'package:example/custom_auth.dart';
 final relyingPartyServerProvider = Provider<CustomAuth>(
   (ref) => throw UnimplementedError('no instance of CustomAuth'),
 );
+
+class Token extends StateNotifier<String> {
+  Token() : super("");
+  set(String newToken) {
+    state = newToken;
+  }
+}
+
+final tokenProvider = StateNotifierProvider(
+  (ref) => Token(),
+);
