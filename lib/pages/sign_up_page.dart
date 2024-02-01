@@ -22,7 +22,7 @@ class SignUpPage extends HookConsumerWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Text(
-              'Tired of passwords?',
+              'Register new account',
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,

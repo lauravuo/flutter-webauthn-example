@@ -5,7 +5,9 @@ import 'package:example/pages/base_page.dart';
 import 'package:example/router.dart';
 
 class ProfilePage extends ConsumerWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({this.origin = "signin", super.key});
+
+  final String origin;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,7 +54,10 @@ class ProfilePage extends ConsumerWidget {
                   side: BorderSide(
                       width: 2, color: Theme.of(context).primaryColor)),
               onPressed: () {
-                context.go(Routes.signUp);
+                //context.go(Routes.signUp);
+                context.go(Uri(
+                    path: origin == "webview" ? Routes.webview : Routes.signUp,
+                    queryParameters: {'logout': 'true'}).toString());
               },
               child: const Text('sign out'),
             ),

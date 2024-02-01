@@ -16,19 +16,23 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: Routes.signUp,
-      builder: (context, state) => SignUpPage(),
+      builder: (context, state) => const SignUpPage(),
     ),
     GoRoute(
       path: Routes.signIn,
-      builder: (context, state) => SignInPage(),
+      builder: (context, state) => const SignInPage(),
     ),
     GoRoute(
       path: Routes.profile,
-      builder: (context, state) => ProfilePage(),
+      builder: (context, state) => ProfilePage(
+        origin: state.uri.queryParameters["origin"] ?? "signin",
+      ),
     ),
     GoRoute(
       path: Routes.webview,
-      builder: (context, state) => WebviewPage(),
+      builder: (context, state) => WebviewPage(
+        logout: state.uri.queryParameters["logout"] == "true",
+      ),
     ),
   ],
 );

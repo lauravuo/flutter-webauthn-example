@@ -127,7 +127,6 @@ class CustomAuth {
       json['publicKey'] = json;
 
       final res1 = StartLoginResponse.fromJson(json);
-
       final platformReq = res1.toPlatformType(conditional: conditional);
       final platformResponse =
           await passkeyAuthenticator.authenticate(platformReq);

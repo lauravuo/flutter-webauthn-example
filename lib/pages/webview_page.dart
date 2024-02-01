@@ -1,16 +1,18 @@
+import 'package:example/router.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:example/pages/base_page.dart';
+import 'package:example/providers.dart';
 
 class WebviewPage extends HookConsumerWidget {
-  const WebviewPage({super.key});
+  const WebviewPage({this.logout = false, super.key});
+
+  final bool logout;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final token = useState<String?>(null);
-
     var controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -19,10 +21,18 @@ class WebviewPage extends HookConsumerWidget {
       onProgress: (int progress) {},
       onPageStarted: (String url) {},
       onPageFinished: (String url) async {
-        final newToken = await controller.runJavaScriptReturningResult(
-          "localStorage.getItem('token') || ''",
-        );
-        token.value = newToken as String;
+        final script = logout
+            ? "localStorage.setItem('token', '');window.location.reload();'reload'"
+            : "localStorage.getItem('token') || ''";
+        final newToken = await controller.runJavaScriptReturningResult(script);
+        ref.read(tokenProvider.notifier).set(newToken as String);
+        if (newToken == "reload") {
+          context.go(Routes.webview);
+        } else if (newToken != "") {
+          context.go(
+              Uri(path: Routes.profile, queryParameters: {'origin': 'webview'})
+                  .toString());
+        }
       },
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
@@ -33,14 +43,8 @@ class WebviewPage extends HookConsumerWidget {
     controller.setNavigationDelegate(navigationDelegate);
 
     return BasePage(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          token.value == ""
-              ? WebViewWidget(controller: controller)
-              : const Text("OK")
-        ],
-      ),
+      useScroll: false,
+      child: WebViewWidget(controller: controller),
     );
   }
 }

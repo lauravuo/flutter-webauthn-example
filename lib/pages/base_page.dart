@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:example/router.dart';
 
 enum RouteLabel {
-  native('Native WebAuthn', Routes.signUp),
-  web('Embedded Webview', Routes.webview);
+  native('Native library', Routes.signUp),
+  web('Embedded webview', Routes.webview);
 
   const RouteLabel(this.label, this.route);
   final String label;
@@ -12,45 +12,44 @@ enum RouteLabel {
 }
 
 class BasePage extends StatelessWidget {
-  const BasePage({required this.child, super.key});
+  const BasePage({required this.child, this.useScroll = true, super.key});
 
   final Widget child;
+  final bool useScroll;
 
   @override
   Widget build(BuildContext context) {
+    final currentRoute =
+        GoRouter.of(context).routeInformationProvider.value.uri.toString();
     return Scaffold(
       appBar: AppBar(title: const Text('Passkeys Example/Standard Backend')),
-      body: Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 500),
-          child: SingleChildScrollView(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              DropdownMenu<RouteLabel>(
-                requestFocusOnTap: true,
-                label: const Text('Mode'),
-                onSelected: (RouteLabel? route) {
-                  if (route != null) {
-                    context.go(route.route);
-                  }
-                },
-                dropdownMenuEntries: RouteLabel.values
-                    .map<DropdownMenuEntry<RouteLabel>>((RouteLabel route) {
-                  return DropdownMenuEntry<RouteLabel>(
-                    value: route,
-                    label: route.label,
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: child,
-              )
-            ],
-          )),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(child: Text("")),
+            ...RouteLabel.values.map((route) => ListTile(
+                title: Text(route.label),
+                selected:
+                    route.route == currentRoute || route == RouteLabel.native,
+                onTap: () {
+                  context.go(route.route);
+                })),
+          ],
         ),
+      ),
+      body: Center(
+        child: useScroll
+            ? Container(
+                constraints: const BoxConstraints(maxWidth: 500),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: child,
+                  ),
+                ),
+              )
+            : child,
       ),
     );
   }

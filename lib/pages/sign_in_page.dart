@@ -56,7 +56,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Text(
-              'Try passkeys',
+              'Login',
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
@@ -132,7 +132,10 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 side:
                     BorderSide(width: 2, color: Theme.of(context).primaryColor),
               ),
-              onPressed: () => context.go(Routes.signUp),
+              onPressed: () {
+                ref.read(tokenProvider.notifier).set("");
+                context.go(Routes.signUp);
+              },
               child: const Text('I want to create a new account'),
             ),
           ),
