@@ -124,6 +124,15 @@ class CustomAuth {
       }
 
       final json = jsonDecode(result.data.challenge) as Map<String, dynamic>;
+      // server leaves transports out if empty
+      final allowCredentials = (json['allowCredentials'] ?? []).map((e) {
+        return {
+          'type': e['type'],
+          'id': e['id'],
+          'transports': e['transports'] ?? []
+        };
+      }).toList();
+      json['allowCredentials'] = allowCredentials;
       json['publicKey'] = json;
 
       final res1 = StartLoginResponse.fromJson(json);
